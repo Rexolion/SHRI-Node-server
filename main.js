@@ -1,11 +1,11 @@
-const express = require('express')
-const app = express()
-const port = 8000
+const express = require('express');
+const app = express();
+const port = 8000;
 const jsonFile = require('./events.json');
-const pageNotFound = `<p>Page not found(</p>`;
+const pageNotFound = '<p>Page not found(</p>';
 
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
 
 // Send current server uptime
@@ -24,45 +24,45 @@ app.post('*', (req, res) => res.status(404).send(pageNotFound));
 app.use((err, req, res, next) => {
 	console.log(err);
 	res.status(500).send(err);
-})
+});
 
 function validateType(req, res, next) {
-    const request = req.query || req.body;
+	const request = req.query || req.body;
 		
-    if (request.type) {
-        const requestedTypes = request.type.split(":");
-        const existingTypes = getEventsByType(jsonFile);
-        requestedTypes.forEach(type => {
+	if (request.type) {
+		const requestedTypes = request.type.split(':');
+		const existingTypes = getEventsByType(jsonFile);
+		requestedTypes.forEach(type => {
 
-            if (!existingTypes.has(type)) {
-                res.status(400).send("Incorrect type");
-                return next("Incorrect type caught in middleware: " + type);
-            }
-        });
-    }
-    next();
+			if (!existingTypes.has(type)) {
+				res.status(400).send('Incorrect type');
+				return next('Incorrect type caught in middleware: ' + type);
+			}
+		});
+	}
+	next();
 }
 
 // Make a response
 function typesResponse(req, res) {
-    let response = jsonFile;
-    const request = req.query || req.body;
+	let response = jsonFile;
+	const request = req.query || req.body;
 
-    if (request.type) {
-        const requestedTypes = request.type.split(":");
-        const filteredEvents = jsonFile.events.filter(e => requestedTypes.includes(e.type));
-        response = { events: [...filteredEvents] };
-    }
+	if (request.type) {
+		const requestedTypes = request.type.split(':');
+		const filteredEvents = jsonFile.events.filter(e => requestedTypes.includes(e.type));
+		response = { events: [...filteredEvents] };
+	}
 
-    res.send(response);
+	res.send(response);
 }
 
 // Count time from server start
 function getServerUptime() {
-    const secs = Math.floor(process.uptime());
-    const date = new Date(null);
-    date.setSeconds(secs);
-    return date.toISOString().substr(11, 8);
+	const secs = Math.floor(process.uptime());
+	const date = new Date(null);
+	date.setSeconds(secs);
+	return date.toISOString().substr(11, 8);
 }
 
 // Get type of events
