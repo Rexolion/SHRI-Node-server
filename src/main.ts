@@ -1,12 +1,12 @@
-import { eventsResponse } from './controllers'
-import { getServerUptime } from './misc'
-import { validateType } from './validateMiddleware'
-import { Request, Response, NextFunction} from 'express'
-import express from 'express'
-import bodyParser from 'body-parser'
+import bodyParser from "body-parser";
+import { NextFunction, Request, Response } from "express";
+import express from "express";
+import { eventsResponse } from "./controllers";
+import { getServerUptime } from "./misc";
+import { validateType } from "./validateMiddleware";
 
 const app = express();
-const pageNotFound = '<p>Page not found</p>';
+const pageNotFound = "<p>Page not found</p>";
 const port = 8000;
 
 // Body parser to handle POST requests
@@ -24,11 +24,8 @@ app.all("*", (req, res) => res.status(404).send(pageNotFound));
 // Put url into console
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
-
 // Make a middleware to handle errors
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-	console.log(err);
-	res.status(500).send(err);
+  console.log(err);
+  res.status(500).send(err);
 });
-
-

@@ -6,7 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node build/main.js",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "lint": "tslint -p tsconfig.json",
+    "fast-lint": "tslint -p tsconfig.json --fix",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\""
   },
   "repository": {
     "type": "git",
@@ -25,6 +28,7 @@
     "@types/node": "^10.12.0",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "prettier": "^1.14.3",
     "tslint": "^5.11.0",
     "typescript": "^3.1.3"
   },
